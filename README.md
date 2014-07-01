@@ -1,4 +1,4 @@
-dashofdecaf
+Dash of Decaf
 ============
 
 Provides a simple story dashboard from Pivotal Tracker inorder to bridge the gap between the mysterious world of software development, and the average end-user waiting for something to happen.
