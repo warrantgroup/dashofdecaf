@@ -7,3 +7,9 @@ Project was started in response to our internal use of Dash of Agile, we found d
 
 One Friday we decided to have a one-day sprint, to create a simple list of stories per epic which could be filtered by story state. Also create a dynamic change log which indicates all new features, fixed bugs and known issues within a period of time. 
 
+Using :
+
+Twitter Bootstrap 3
+Silex
+Guzzle
+Pivotal Tracker API
