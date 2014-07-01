@@ -9,7 +9,7 @@ One Friday we decided to have a one-day sprint, to create a simple list of stori
 
 Using :
 
-Twitter Bootstrap 3
-Silex
-Guzzle
-Pivotal Tracker API
+* Twitter Bootstrap 3
+* Silex
+* Guzzle
+* Pivotal Tracker API
