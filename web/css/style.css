@@ -6,6 +6,8 @@
     content: "\f188"}
 .icon-release:before {
     content: "\f11e"}
+.icon-known-issue:before {
+    content: "\f05b"}
 
 body {
     background: url("../img/bg.png") repeat scroll 0 0 rgba(0, 0, 0, 0);

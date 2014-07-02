@@ -4,18 +4,21 @@ require_once __DIR__.'/bootstrap.php';
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/* main */
-$app->get('/', function() use($app) {
 
-	$foo = new \Library\Foo("Foobar");
+$app->get('/', function() use ($app) {
+    return $app->redirect($app["url_generator"]->generate("stories"));
+});
 
-	
-	$test = $foo->getBar();
-	
-	return $app['twig']->render('index.twig', array(
-			'test' => $test,
+$app->get('/stories', function() use ($app) {
+	return $app['twig']->render('stories.twig', array(
+
 	));
+})->bind('stories');
 
+$app->get('/changelog', function() use ($app) {
+    return $app['twig']->render('changelog.twig', array(
+
+    ));
 });
 
 return $app;
