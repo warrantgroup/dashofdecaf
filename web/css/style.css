@@ -1,0 +1,22 @@
+.icon-feature:before {
+    content: "\f005"}
+.icon-chore:before {
+    content: "\f013"}
+.icon-bug:before {
+    content: "\f188"}
+.icon-release:before {
+    content: "\f11e"}
+
+body {
+    background: url("../img/bg.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.story-search {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.story-search-select {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
