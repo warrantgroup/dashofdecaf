@@ -53,8 +53,7 @@ class ChangeLog
 
         $filters = array(
             'state' => 'feature,bug',
-            'accepted_after' => $range['startDate'],
-            'accepted_before' => $range['endDate']
+            'accepted' => $range['startDate'] . '..' . $range['endDate']
         );
 
         if($params['label']) {
