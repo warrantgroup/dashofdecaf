@@ -26,10 +26,12 @@ class ChangeLog
         $response = $client->get($this->url, array(
                 'X-TrackerToken' => $this->api->getToken(),
                 'query' => array(
-                    'filter' => $this->buildFilter($params)
+                    'filter' => $this->filter($params)
                 )
             )
         )->send();
+
+        var_dump($this->filter($params));
 
         var_dump($response->json());
     }
@@ -40,7 +42,15 @@ class ChangeLog
      * @param $params
      * @return string
      */
-    protected function buildFilter($params) {
+    protected function filter($params) {
+
+        if(!isset($params['range'])) {
+            $params['range'] = 'fortnight';
+        }
+
+        if(!isset($params['label'])) {
+            $params['label'] = null;
+        }
 
         $range = $this->convertDateRange($params['range']);
 
@@ -51,10 +61,10 @@ class ChangeLog
         );
 
         if(is_array($params['label'])) {
-            $filters[] = implode(',', $params['label']);
+            $filters['label'] = implode(',', $params['label']);
         }
 
-        return implode(' ', $filters);
+        return $this->api->formatSearchQuery($filters);
     }
 
     /**
@@ -91,8 +101,8 @@ class ChangeLog
         }
 
         return array(
-            'startDate' => $range[0]->format('Y-m-d'),
-            'endDate' => $range[1]->format('Y-m-d')
+            'startDate' => $range[0]->format('m/d/Y'),
+            'endDate' => $range[1]->format('m/d/Y')
         );
     }
 
