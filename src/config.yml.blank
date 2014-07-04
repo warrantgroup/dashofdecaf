@@ -7,14 +7,14 @@ labels:
       label: "air"
       description: "Airfreight"
     -
-      label: "logistics"
+      label: "wms"
       description: "Logistics"
     -
-      label: "road"
+      label: "roadfreight"
       description: "Road Freight"
     -
       label: "scm"
       description: "Supply Chain Management"
     -
-      label: "sea"
+      label: "seafreight"
       description: "Sea Freight"
