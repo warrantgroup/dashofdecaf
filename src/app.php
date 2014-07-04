@@ -30,10 +30,12 @@ $app->get('/stories', function() use ($app) {
 	));
 })->bind('stories');
 
-$app->get('/changelog', function() use ($app, $api) {
+$app->get('/changelog', function(Request $request) use ($app, $api) {
+
+    $params = $request->query->all();
 
     $client = new PivotalTracker\ChangeLog($api);
-    $changelog = $client->build(array());
+    $changelog = $client->build($params);
 
     return $app['twig']->render('changelog.twig', array(
          'features' => $changelog['feature'],

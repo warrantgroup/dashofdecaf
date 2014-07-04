@@ -57,10 +57,15 @@ class ChangeLog
             'accepted_before' => $range['endDate']
         );
 
-        if(is_array($params['label'])) {
-            $filters['label'] = implode(',', $params['label']);
+        if($params['label']) {
+            if(is_array($params['label'])) {
+                $filters['label'] = implode(',', $params['label']);
+            }else{
+                $filters['label'] = $params['label'];
+            }
         }
 
+        var_dump($this->api->formatSearchQuery($filters));
         return $this->api->formatSearchQuery($filters);
     }
 
