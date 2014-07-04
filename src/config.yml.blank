@@ -1,0 +1,4 @@
+pivotaltracker:
+    apiKey: ** YOUR PIVOTAL API KEY **
+    projectId: ** YOUR PIVOTAL PROJECT ID **
+
