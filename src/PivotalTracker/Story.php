@@ -5,19 +5,25 @@
  */
 
 namespace PivotalTracker;
+use \Guzzle\Http\Exception\ClientErrorResponseException;
 
 class Story {
 
-    public function search() {
-        $token='da4e0e8bd15d9eba46b376f95466f972';
-        $projectId=433999;
+    protected $api;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, 'https://www.pivotaltracker.com/services/v5/projects/$PROJECT_ID/stories?date_format=millis&with_state=unstarted');
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $response = json_decode($response, true);
-        var_dump($response);
+    public function __construct($api)
+    {
+        $this->api = $api;
+        $this->url = sprintf('https://www.pivotaltracker.com/services/v5/projects/%s/stories', $api->getProjectId());
+    }
+
+    public function search() {
+        $client = new \Guzzle\Http\Client();
+
+        $response = $client->get($this->url, array(
+            'X-TrackerToken' => $this->api->getToken(),
+        ))->send();
+
+        return $response->json();
     }
 }
