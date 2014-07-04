@@ -24,9 +24,10 @@ $app->get('/', function() use ($app) {
     return $app->redirect($app["url_generator"]->generate("stories"));
 });
 
-$app->get('/stories', function() use ($app) {
+$app->get('/stories', function() use ($app, $api) {
+    $story = new PivotalTracker\Story($api);
 	return $app['twig']->render('stories.twig', array(
-
+        'stories' => $story->search()
 	));
 })->bind('stories');
 

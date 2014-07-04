@@ -5,86 +5,61 @@
      <div class='row mt10'>
          <div class='col-xs-12'>
              <div class="well well-sm">
-                         <form class="navbar-form" role="search" method="get" id="search-form" name="search-form">
+                         <form class="navbar-form" role="search" method="get" id="search-form" name="search-form" >
                              <span class="story-search">Show me &nbsp;</span>
-                             <select name="story" class="form-control story-search-select">
-                                 <option value="all">All</option>
-                                 <option value="feature" selected>Finished</option>
-                                 <option value="bug">Work in Progress</option>
-                                 <option value="chore">Scheduled</option>
-                                 <option value="release">Icebox</option>
+                             <select name="status" class="form-control story-search-select">
+                                 <option value="all" selected>All</option>
+                                 <option value="finished">Finished</option>
+                                 <option value="inprogress">Work in Progress</option>
+                                 <option value="scheduled">Scheduled</option>
+                                 <option value="icebox">Icebox</option>
                              </select>
                              <span class="story-search">&nbsp; stories for &nbsp;</span>
                              <select name="label" class="form-control story-search-select">
-                                 <option value="all">Everything</option>
+                                 <option value="all">All</option>
                                  <option value="it" selected>IT Department</option>
+                             </select>
+                             <span class="story-search">&nbsp; that are &nbsp;</span>
+                             <select name="story" class="form-control story-search-select">
+                                 <option value="all" selected>All</option>
+                                 <option value="bug">Bug</option>
+                                 <option value="chore">Chore</option>
+                                 <option value="feature">Feature</option>
+                                 <option value="release">Release</option>
                              </select>
                          </form>
              </div>
+             {% for story in stories %}
              <div class='panel panel-default'>
                  <div class='panel-heading'>
-                     <span class='label label-success pull-right'>Finished</span>
+                     {% if story.current_state == 'accepted' or story.current_state == 'finished' %}
+                        <span class='label label-success pull-right'>Finished</span>
+                     {% elseif story.current_state == 'delivered' or story.current_state == 'rejected' or story.current_state == 'started' %}
+                         <span class='label label-warning pull-right'>Work in progress</span>
+                     {% endif %}
                      <h3 class='panel-title'>
-                         <i class='fa icon-feature'></i>
-                         <a href="https://www.pivotaltracker.com/story/show/1234" target="_blank">Get some decaf coffee
-                             <small>
-                                 <i class='fa fa-external-link ml5'></i>
-                             </small>
-                         </a></h3>
-                 </div>
-                 <div class='panel-body' style='overflow: hidden;'>
-                     <p class='pl10'>Provide IT department with decaffinated coffee.</p>
-                 </div>
-             </div>
-             <div class='panel panel-default'>
-                 <div class='panel-heading'>
-                     <span class='label label-warning pull-right'>Work in progress</span>
-                     <h3 class='panel-title'>
+                         {% if story.story_type == 'bug' %}
                          <i class='fa icon-bug'></i>
-                         <a href="https://www.pivotaltracker.com/story/show/1234" target="_blank">Someone needs to wash out the percolator
+                         {% elseif story.story_type == 'feature' %}
+                             <i class='fa icon-feature'></i>
+                         {% elseif story.story_type == 'chore' %}
+                             <i class='fa icon-chore'></i>
+                         {% elseif story.story_type == 'release' %}
+                             <i class='fa icon-release'></i>
+                         {% endif %}
+                         <a href={{ story.url }} target="_blank">{{ story.name }}
                              <small>
                                  <i class='fa fa-external-link ml5'></i>
                              </small>
                          </a></h3>
                  </div>
+                 {% if story.description is defined %}
                  <div class='panel-body' style='overflow: hidden;'>
-                     <p class='pl10'>Need fresh percolated decaffinated coffee.</p>
+                     <p class='pl10'>{{ story.description }}</p>
                  </div>
+                 {% endif %}
              </div>
-             <div class='panel panel-default'>
-                 <div class='panel-heading'>
-                     <span class='label label-default pull-right'>Scheduled</span>
-                     <h3 class='panel-title'>
-                         <i class='fa icon-feature'></i>
-                         <a href="https://www.pivotaltracker.com/story/show/1234" target="_blank">We need some cookies
-                             <small>
-                                 <i class='fa fa-external-link ml5'></i>
-                             </small>
-                         </a></h3>
-                 </div>
-                 <div class='panel-body' style='overflow: hidden;'>
-                     <p class='pl10'>Decaf Coffee. <br/>
-                         Cookie.<br/>
-                         Heaven.
-                     </p>
-                 </div>
-             </div>
-             <div class='panel panel-default'>
-                 <div class='panel-heading'>
-                     <span class='label label-info pull-right'>Icebox</span>
-                     <h3 class='panel-title'>
-                         <i class='fa icon-chore'></i>
-                         <a href="https://www.pivotaltracker.com/story/show/1234" target="_blank">Someone has to clean the mess
-                             <small>
-                                 <i class='fa fa-external-link ml5'></i>
-                             </small>
-                         </a></h3>
-                 </div>
-                 <div class='panel-body' style='overflow: hidden;'>
-                     <p class='pl10'>Clean the cups, desks and while your at it ... the office.<br/>
-                     </p>
-                 </div>
-             </div>
+             {% endfor %}
          </div>
      </div>
 {% endblock %}
