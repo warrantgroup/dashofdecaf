@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 $app = new Silex\Application();
 $app['debug'] = true;
 
+if(!file_exists(__DIR__ . '/config.yml')) {
+    echo 'Missing configuration file, please update config.yml including your Pivotal Key API key.';
+    die();
+}
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/templates'));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new DerAlex\Silex\YamlConfigServiceProvider(__DIR__ . '/config.yml'));
@@ -27,10 +32,12 @@ $app->get('/stories', function() use ($app) {
 
 $app->get('/changelog', function() use ($app, $api) {
 
-    $changelog = new PivotalTracker\ChangeLog($api);
+    $client = new PivotalTracker\ChangeLog($api);
+    $changelog = $client->build(array());
 
     return $app['twig']->render('changelog.twig', array(
-         'stories' => $changelog->build(array())
+         'features' => $changelog['feature'],
+         'bugs' => $changelog['bug']
     ));
 });
 

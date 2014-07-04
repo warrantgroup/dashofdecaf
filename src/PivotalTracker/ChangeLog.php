@@ -5,7 +5,6 @@
  */
 
 namespace PivotalTracker;
-
 use \Guzzle\Http\Exception\ClientErrorResponseException;
 
 class ChangeLog
@@ -31,9 +30,7 @@ class ChangeLog
             )
         )->send();
 
-        var_dump($this->filter($params));
-
-        var_dump($response->json());
+       return $this->buildChangeLog($response->json());
     }
 
     /**
@@ -104,6 +101,30 @@ class ChangeLog
             'startDate' => $range[0]->format('m/d/Y'),
             'endDate' => $range[1]->format('m/d/Y')
         );
+    }
+
+    /**
+     * Build Change Log
+     *
+     * Filter all stories by type (feature, bug)
+     */
+    protected function buildChangeLog($stories) {
+
+        $changelog = array(
+            'feature' => array(),
+            'bug' => array()
+        );
+
+        foreach($stories as $story) {
+            if(in_array($story['story_type'], array_keys($changelog))) {
+                $changelog[$story['story_type']][] = array(
+                    'id' => $story['id'],
+                    'name' => $story['name']
+                );
+            }
+        }
+
+        return $changelog;
     }
 
 }
