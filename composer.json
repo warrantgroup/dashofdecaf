@@ -3,7 +3,9 @@
 		"silex/silex": "1.0.*",
 		"twig/twig"       : "1.*",
 		"symfony/twig-bridge": "2.1.*",
-        "guzzlehttp/guzzle": "v3.8.1"
+        "guzzlehttp/guzzle": "v3.8.1",
+		"symfony/yaml": "2.5.*@dev",
+		"deralex/yaml-config-service-provider": "1.0.x-dev"
 },
 	"autoload"         : {
         "psr-0": { "PivotalTracker": "src/"}
