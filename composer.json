@@ -5,6 +5,6 @@
 		"symfony/twig-bridge": "2.1.*"
 },
 	"autoload"         : {
-        "psr-0": { "Library": "src/"}
+        "psr-0": { "PivotalTracker": "src/"}
     }
 }
