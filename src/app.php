@@ -25,5 +25,5 @@ $app->get('/changelog', function() use ($app) {
 });
 
 $app = new Silex\Application();
-$app->register(new DerAlex\Silex\YamlConfigServiceProvider(__DIR__ . '/settings.yml'));
+$app->register(new DerAlex\Silex\YamlConfigServiceProvider(__DIR__ . '/config.yml'));
 return $app;
