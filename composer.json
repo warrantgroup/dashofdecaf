@@ -3,7 +3,7 @@
 		"silex/silex": "1.0.*",
 		"twig/twig"       : "1.*",
 		"symfony/twig-bridge": "2.1.*",
-        "misd/guzzle-bundle": "~1.0"
+        "guzzlehttp/guzzle": "v3.8.1"
 },
 	"autoload"         : {
         "psr-0": { "PivotalTracker": "src/"}
