@@ -10,16 +10,17 @@ $app->get('/', function() use ($app) {
 });
 
 $app->get('/stories', function() use ($app) {
-	/*return $app['twig']->render('stories.twig', array(
+	return $app['twig']->render('stories.twig', array(
 
-	));*/
-    return PivotalTracker/Story;
-
+	));
 })->bind('stories');
 
 $app->get('/changelog', function() use ($app) {
-    return $app['twig']->render('changelog.twig', array(
 
+    $changelog = new PivotalTracker\ChangeLog();
+
+    return $app['twig']->render('changelog.twig', array(
+         'stories' => $changelog->build()
     ));
 });
 

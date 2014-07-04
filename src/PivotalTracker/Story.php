@@ -4,6 +4,8 @@
  * Pivotal Tracker Story
  */
 
+namespace PivotalTracker;
+
 class Story {
 
     public function search() {
