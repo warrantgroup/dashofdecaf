@@ -3,8 +3,18 @@ pivotaltracker:
     projectId: ** YOUR PIVOTAL PROJECT ID **
 
 labels:
-    - air
-    - logistics
-    - road
-    - scm
-    - sea
+    -
+      label: "air"
+      description: "Airfreight"
+    -
+      label: "logistics"
+      description: "Logistics"
+    -
+      label: "road"
+      description: "Road Freight"
+    -
+      label: "scm"
+      description: "Supply Chain Management"
+    -
+      label: "sea"
+      description: "Sea Freight"
