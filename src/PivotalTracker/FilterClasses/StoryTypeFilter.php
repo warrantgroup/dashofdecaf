@@ -6,7 +6,7 @@ use PivotalTracker\FilterClasses\FilterInterface;
 
 class StoryTypeFilter implements FilterInterface
 {
-    public function create($value, $filterString)
+    public function create($value)
     {
         $types = array();
         if (in_array('features', $value)){
@@ -25,6 +25,6 @@ class StoryTypeFilter implements FilterInterface
             $types[] = 'release';
         }
 
-        return $filterString . 'filter=type:' . implode(',', $types);
+        return array('type' => $types);
     }
 }

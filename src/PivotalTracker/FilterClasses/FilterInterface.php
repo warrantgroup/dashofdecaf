@@ -4,5 +4,5 @@ namespace PivotalTracker\FilterClasses;
 
 interface FilterInterface {
 
-    public function create($value, $filterString);
+    public function create($value);
 }

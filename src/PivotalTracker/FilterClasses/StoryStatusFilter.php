@@ -6,7 +6,7 @@ use PivotalTracker\FilterClasses\FilterInterface;
 
 class StoryStatusFilter implements FilterInterface
 {
-    public function create($value, $filterString)
+    public function create($value)
     {
         $states = array();
         if (in_array('workInProgress', $value)){
@@ -29,6 +29,6 @@ class StoryStatusFilter implements FilterInterface
             $states[] = 'unscheduled';
         }
 
-        return $filterString . 'filter=state:' . implode(',', $states);
+        return array('state' => $states);
     }
 }

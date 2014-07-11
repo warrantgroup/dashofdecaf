@@ -60,17 +60,14 @@ class Story {
      */
     public function addFilter($filters, $request) {
         $factory = new \PivotalTracker\FilterClasses\FilterFactory();
-        $filterString = null;
+        $filtersArray = array();
 
         foreach ($filters as $filter){
-            if (!empty($filterString)){
-                $filterString = $filterString . '&';
-            }
             $class = $factory->loadClass($filter['name']);
-            $filterString = $class->create($filter['value'], $filterString);
+            $filtersArray[] = $class->create($filter['value']);
         }
 
-        return $request->getQuery()->set('filter', $filterString);
+        return $request->getQuery()->set('filter', $this->api->formatFilter($filtersArray));
     }
 
     /**
