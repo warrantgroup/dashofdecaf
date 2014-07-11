@@ -16,8 +16,13 @@
                      <span class="story-search">&nbsp; for &nbsp;</span>
                      <select name="label" class="form-control story-search-select">
                          <option value="all">Everything</option>
-                         <option value="it" selected>IT Department</option>
+                         {% if labels|length > 0 %}
+                                 {% for label in labels %}
+                                     <li>{{ label }}</li>
+                                 {% endfor %}
+                         {% endif %}
                      </select>
+                     <input type="submit" value="Search" name="submit" class="btn btn-primary">
                  </form>
              </div>
 

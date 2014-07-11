@@ -40,7 +40,8 @@ $app->get('/changelog', function(Request $request) use ($app, $api) {
 
     return $app['twig']->render('changelog.twig', array(
          'features' => $changelog['feature'],
-         'bugs' => $changelog['bug']
+         'bugs' => $changelog['bug'],
+         'labels' => $app['config']['labels']
     ));
 });
 

@@ -21,25 +21,25 @@ class Api {
     }
 
     /**
-     * Format search query
+     * Format Filter
      *
      * https://www.pivotaltracker.com/help/faq#howcanasearchberefined
      *
      * @param $filters
      * @return array|string
      */
-    public function formatSearchQuery($filters) {
+    public function formatFilter($filters) {
 
-        if(!is_array($filters)) {
-           return array();
+        if(!is_array($filters) || empty($filters)) {
+           return '';
         }
 
-        $queryString = array();
+        $searchString = array();
 
         foreach($filters as $k => $filter) {
-            $queryString[] =  $k . ':' . $filter;
+            $searchString[] =  $k . ':' . $filter;
         }
 
-        return implode(' ', $queryString);
+        return implode(' ', $searchString);
     }
 }

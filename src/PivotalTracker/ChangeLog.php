@@ -7,33 +7,10 @@
 namespace PivotalTracker;
 
 use \Guzzle\Http\Exception\ClientErrorResponseException;
+use \PivotalTracker\Story as Story;
 
-class ChangeLog
+class ChangeLog extends Story
 {
-
-    protected $api;
-
-    public function __construct($api)
-    {
-        $this->api = $api;
-        $this->url = sprintf('https://www.pivotaltracker.com/services/v5/projects/%s/stories', $api->getProjectId());
-    }
-
-    public function build($params)
-    {
-        $client = new \Guzzle\Http\Client();
-
-        $response = $client->get($this->url, array(
-                'X-TrackerToken' => $this->api->getToken()
-            ), array(
-                'query' => array(
-                    'filter' => $this->filter($params)
-                )
-            )
-        )->send();
-
-        return $this->buildChangeLog($response->json());
-    }
 
     /**
      * Build Filters
@@ -41,7 +18,7 @@ class ChangeLog
      * @param $params
      * @return string
      */
-    protected function filter($params)
+    public function getFilter($params)
     {
 
         if (!isset($params['range'])) {
@@ -115,7 +92,7 @@ class ChangeLog
      *
      * Filter all stories by type (feature, bug)
      */
-    protected function buildChangeLog($stories)
+    protected function buildStories($stories)
     {
 
         $changelog = array(
