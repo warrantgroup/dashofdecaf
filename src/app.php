@@ -24,10 +24,17 @@ $app->get('/', function() use ($app) {
     return $app->redirect($app["url_generator"]->generate("stories"));
 });
 
-$app->get('/stories', function() use ($app, $api) {
+$app->get('/stories', function(Request $request) use ($app, $api) {
+    $params = $request->query->all();
+    $params['offset'] = $params['offset'] < 1 ? 1 : $params['offset'];
+
+    $page = $params['offset'];
+    $params['offset'] = $params['offset'] - 1;
     $story = new PivotalTracker\Story($api);
+
 	return $app['twig']->render('stories.twig', array(
-        'stories' => $story->search()
+        'stories' => $story->search($params),
+        'page' => $page
 	));
 })->bind('stories');
 

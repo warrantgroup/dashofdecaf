@@ -27,10 +27,18 @@ class Story {
     public function search($params = array()) {
 
         $client = new \Guzzle\Http\Client();
+        $limit = 20;
+        $offset = $params['offset'] * $limit;
 
         $request = $client->get($this->url, array(
-            'X-TrackerToken' => $this->api->getToken(),
-        ));
+            'X-TrackerToken' => $this->api->getToken()
+        ), array(
+                'query' => array(
+                    'offset' => $offset,
+                    'limit' => $limit
+                )
+            )
+        );
 
         if(isset($params['filter'])) {
            $this->filters = $params['filter'];

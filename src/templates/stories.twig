@@ -1,5 +1,5 @@
 {% extends "index.twig" %}
- 
+
  {% block content %}
      <div class="container">
          <div class="row">
@@ -51,12 +51,12 @@
                      <div class="well">
                          <p><strong>Story Type</strong></p>
                          <div class="input-group" style="margin-bottom: 20px;">
-                                 <div class="checkbox">
-                                     <label>
-                                         <input type="checkbox" value="">
-                                         Features
-                                     </label>
-                                 </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="">
+                                     Features
+                                 </label>
+                             </div>
                              <div class="checkbox">
                                  <label>
                                      <input type="checkbox" value="">
@@ -108,5 +108,16 @@
                  </div>
              </div>
          </div>
+     </div>
+
+     <div class="pagination">
+         <ul>
+
+             {% set prev = (page - 1) %}
+             {% set next = (page + 1) %}
+
+             <li><input type="button" value="Prev" onClick="location.href='{{ url('stories', {'offset': prev})}}'"></li>
+             <li><input type="button" value="Next" onClick="location.href='{{ url('stories', {'offset': next})}}'"></li>
+         </ul>
      </div>
  {% endblock %}
