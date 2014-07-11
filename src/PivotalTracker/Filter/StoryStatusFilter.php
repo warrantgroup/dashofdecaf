@@ -1,8 +1,8 @@
 <?php
 
-namespace PivotalTracker\FilterClasses;
+namespace PivotalTracker\Filter;
 
-use PivotalTracker\FilterClasses\FilterInterface;
+use PivotalTracker\Filter\FilterInterface;
 
 class StoryStatusFilter implements FilterInterface
 {

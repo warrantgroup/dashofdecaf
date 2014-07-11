@@ -59,6 +59,7 @@ class Story {
      * @return $request - The new request being sent to Pivotal with filters added.
      */
     public function addFilter($filters, $request) {
+
         $factory = new \PivotalTracker\FilterClasses\FilterFactory();
         $filtersArray = array();
 
