@@ -43,12 +43,7 @@ class Story {
         );
 
         if(isset($params['filter'])) {
-           $this->filters = $params['filter'];
-        }
-
-        if(count($this->filters) > 0) {
-            $query = $request->getQuery();
-            $query->set('filter', $this->api->formatFilter($this->filters));
+           $request = $this->addFilter($params['filters'], $request);
         }
 
         $response = $request->send();
@@ -58,11 +53,24 @@ class Story {
     /**
      * Add search filter
      *
-     * @param $name
-     * @param $filter
+     * @param $filters - Array of filters, with name of filter and value the filter should be searched by.
+     * @param $request - The request being sent to Pivotal.
+     *
+     * @return $request - The new request being sent to Pivotal with filters added.
      */
-    public function addFilter($name, $filter) {
-        $this->filters[$name] = $filter;
+    public function addFilter($filters, $request) {
+        $factory = new \PivotalTracker\FilterClasses\FilterFactory();
+        $filterString = null;
+
+        foreach ($filters as $filter){
+            if (!empty($filterString)){
+                $filterString = $filterString . '&';
+            }
+            $class = $factory->loadClass($filter['name']);
+            $filterString = $class->create($filter['value'], $filterString);
+        }
+
+        return $request->getQuery()->set('filter', $filterString);
     }
 
     /**
