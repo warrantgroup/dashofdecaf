@@ -1,6 +1,6 @@
 <?php
 
-namespace PivotalTracker\FilterClasses;
+namespace PivotalTracker\Filter;
 
 class FilterFactory
 {
