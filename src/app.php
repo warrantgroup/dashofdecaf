@@ -24,19 +24,35 @@ $app->get('/', function() use ($app) {
     return $app->redirect($app["url_generator"]->generate("stories"));
 });
 
-$app->get('/stories', function(Request $request) use ($app, $api) {
-    $params = $request->query->all();
-    $params['offset'] = $params['offset'] < 1 ? 1 : $params['offset'];
+$app->get('/stories', function() use ($app, $api) {
 
-    $page = $params['offset'];
-    $params['offset'] = $params['offset'] - 1;
-    $story = new PivotalTracker\Story($api);
-
-	return $app['twig']->render('stories.twig', array(
-        'stories' => $story->search($params),
-        'page' => $page
+	return $app['twig']->render('stories/index.twig', array(
+        'stories' => null
 	));
+
 })->bind('stories');
+
+$app->post('/stories', function(Request $request) use ($app, $api) {
+
+    $params = $request->request->all();
+
+    $story = new PivotalTracker\Story($api);
+    $storyCollection = $story->search($params);
+
+    if(!isset($params['offset'])) {
+        $params['offset'] = 0;
+    }
+
+    if($request->isXmlHttpRequest()) {
+        return $app['twig']->render('stories/list.twig', array(
+            'stories' => $storyCollection,
+            'page' => $params['offset']
+        ));
+    }
+
+});
+
+
 
 $app->get('/changelog', function(Request $request) use ($app, $api) {
 

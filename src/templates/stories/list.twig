@@ -1,0 +1,37 @@
+{% for story in stories %}
+    <div class='panel panel-default'>
+        <div class='panel-heading'>
+            {% if story.current_state == 'accepted' or story.current_state == 'finished' %}
+                <span class='label label-success pull-right'>Finished</span>
+            {% elseif story.current_state == 'delivered' or story.current_state == 'rejected' or story.current_state == 'started' %}
+                <span class='label label-warning pull-right'>Work in progress</span>
+            {% endif %}
+            <h3 class='panel-title'>
+                {% if story.story_type == 'bug' %}
+                    <i class='fa icon-bug'></i>
+                {% elseif story.story_type == 'feature' %}
+                    <i class='fa icon-feature'></i>
+                {% elseif story.story_type == 'chore' %}
+                    <i class='fa icon-chore'></i>
+                {% elseif story.story_type == 'release' %}
+                    <i class='fa icon-release'></i>
+                {% endif %}
+                <a href={{ story.url }} target="_blank">{{ story.name }}
+                    <small>
+                        <i class='fa fa-external-link ml5'></i>
+                    </small>
+                </a></h3>
+        </div>
+        {% if story.description is defined %}
+            <div class='panel-body' style='overflow: hidden;'>
+                <p class='pl10'>{{ story.description }}</p>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+<div class="row">
+    <ul class="pager">
+        <li><a href="#" onClick="location.href='{{ url('stories', {'page': 0})}}'">Previous</a></li>
+        <li><a href="#" onClick="location.href='{{ url('stories', {'page': 0})}}'">Next</a></li>
+    </ul>
+</div>

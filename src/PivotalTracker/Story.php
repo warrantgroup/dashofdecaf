@@ -27,15 +27,17 @@ class Story {
     public function search($params = array()) {
 
         $client = new \Guzzle\Http\Client();
-        $limit = 20;
-        $offset = $params['offset'] * $limit;
+
+        if(!isset($params['limit'])) {
+            $params['limit'] = 20;
+        }
 
         $request = $client->get($this->url, array(
             'X-TrackerToken' => $this->api->getToken()
         ), array(
                 'query' => array(
-                    'offset' => $offset,
-                    'limit' => $limit
+                    'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
+                    'limit' => $params['limit']
                 )
             )
         );

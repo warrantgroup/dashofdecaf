@@ -1,0 +1,98 @@
+{% extends "template.twig" %}
+
+ {% block content %}
+
+     <script type="text/javascript">
+         $(document).ready(function () {
+             $( "#stories" ).load( "stories", {
+                 "filters" : {
+                     "query" : '',
+                     "type": [],
+                     "status": []
+                 }
+             });
+         });
+     </script>
+
+     <div class="container">
+
+         {{ stories }}
+
+         <div class="row" style="margin-bottom: 15px;">
+             <div class="input-group">
+                 <input type="hidden" name="search_param" value="all" id="search_param">
+                 <input type="text" class="form-control" name="x" placeholder="Search term...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span
+                                        class="glyphicon glyphicon-search"></span></button>
+                        </span>
+             </div>
+         </div>
+
+         <div class="row">
+             <div class="col-md-10" id="stories">
+             </div>
+             <div class="col-md-2">
+                 <div class="row">
+                     <div class="well">
+                         <p><strong>Story Type</strong></p>
+                         <div class="input-group" style="margin-bottom: 20px;">
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="feature" checked>
+                                     Features
+                                 </label>
+                             </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="bug" checked>
+                                     Bugs
+                                 </label>
+                             </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="chore" checked>
+                                     Chores
+                                 </label>
+                             </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="">
+                                     Releases
+                                 </label>
+                             </div>
+                         </div>
+
+                         <p><strong>Story Status</strong></p>
+                         <div class="input-group">
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="workinprogress" checked>
+                                     Work in Progress
+                                 </label>
+                             </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="finished" checked>
+                                     Finished
+                                 </label>
+                             </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="scheduled">
+                                     Scheduled
+                                 </label>
+                             </div>
+                             <div class="checkbox">
+                                 <label>
+                                     <input type="checkbox" value="icebox">
+                                     Icebox
+                                 </label>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ {% endblock %}
