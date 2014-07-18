@@ -5,15 +5,23 @@
      <script type="text/javascript">
          $(document).ready(function () {
 
+             /**
+              * Find Stories
+              * @param params
+              */
              function find(params) {
                  $("#stories").load("stories", {
-                     "filters": params
+                     "filters": getFilters()
                  });
              }
 
-             function filter() {
+             /**
+              * Get filters
+              *
+              * @returns {{}}
+              */
+             function getFilters() {
                  var filters = {};
-
                  filters.storyType = [];
                  filters.storyState = [];
                  filters.search = '';
@@ -31,12 +39,12 @@
                  return filters;
              }
 
-             // Default filters
-             find(filter());
+             // Show inital stories
+             find();
 
              // Filter on checkbox change
              $('input[type="checkbox"]').change(function () {
-                 find(filter());
+                 find();
              });
 
              var delay = (function(){
@@ -50,8 +58,8 @@
              // Filter on search query
              $('input:text[name="search"]').on('input', function() {
                  delay(function(){
-                     find(filter());
-                 }, 600 );
+                     find();
+                 }, 400 );
              });
          });
      </script>
