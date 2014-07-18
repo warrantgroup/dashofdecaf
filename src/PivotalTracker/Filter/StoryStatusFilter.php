@@ -6,9 +6,10 @@ use PivotalTracker\Filter\FilterInterface;
 
 class StoryStatusFilter implements FilterInterface
 {
-    public function create($value)
+    public function filter($value)
     {
         $states = array();
+
         if (in_array('workInProgress', $value)){
             $states[] = 'delivered';
             $states[] = 'rejected';

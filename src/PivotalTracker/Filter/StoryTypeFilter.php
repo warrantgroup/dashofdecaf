@@ -6,25 +6,19 @@ use PivotalTracker\Filter\FilterInterface;
 
 class StoryTypeFilter implements FilterInterface
 {
-    public function create($value)
+    public function filter($value)
     {
-        $types = array();
-        if (in_array('features', $value)){
-            $types[] = 'feature';
-        }
+        return array('type' => array_filter($value, array($this, 'filterType')));
+    }
 
-        if (in_array('bugs', $value)){
-            $types[] = 'bug';
-        }
-
-        if (in_array('chores', $value)){
-            $types[] = 'chore';
-        }
-
-        if (in_array('releases', $value)){
-            $types[] = 'release';
-        }
-
-        return array('type' => $types);
+    /**
+     * Filter types to expected values
+     *
+     * @param $value
+     * @return bool
+     */
+    protected function filterType($value)
+    {
+        return in_array($value, array('feature', 'bug', 'chore', 'release'));
     }
 }

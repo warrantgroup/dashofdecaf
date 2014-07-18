@@ -4,13 +4,12 @@ namespace PivotalTracker\Filter;
 
 class FilterFactory
 {
-
-    public function loadClass($filterType) {
+    public function create($filterType) {
         switch($filterType) {
             case 'search' :
                 return new SearchFilter();
                 break;
-            case 'storyStatus' :
+            case 'storyState' :
                 return new StoryStatusFilter();
                 break;
             case 'storyType' :

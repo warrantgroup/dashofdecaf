@@ -6,7 +6,7 @@
 
 namespace PivotalTracker;
 use \Guzzle\Http\Exception\ClientErrorResponseException;
-use PivotalTracker\StoryCollection;
+use PivotalTracker\StoryCollection, PivotalTracker\Filter\FilterFactory;
 
 class Story {
 
@@ -32,19 +32,26 @@ class Story {
             $params['limit'] = 20;
         }
 
+        if(isset($params['filters'])) {
+            $this->addFilter($params['filters']);
+        }
+
+        $query = array(
+            'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
+            'limit' => $params['limit']
+        );
+
+        if(count($this->filters) > 0) {
+            $query['filter'] = $this->api->formatFilter($this->filters);
+        }
+
         $request = $client->get($this->url, array(
             'X-TrackerToken' => $this->api->getToken()
         ), array(
-                'query' => array(
-                    'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
-                    'limit' => $params['limit']
-                )
+                'query' => $query
             )
         );
 
-        if(isset($params['filter'])) {
-           $request = $this->addFilter($params['filters'], $request);
-        }
 
         $response = $request->send();
         return $this->buildList($response->json());
@@ -53,22 +60,23 @@ class Story {
     /**
      * Add search filter
      *
-     * @param $filters - Array of filters, with name of filter and value the filter should be searched by.
-     * @param $request - The request being sent to Pivotal.
-     *
-     * @return $request - The new request being sent to Pivotal with filters added.
+     * @param array $filters
+     * @return this
      */
-    public function addFilter($filters, $request) {
+    public function addFilter($filters) {
 
-        $factory = new \PivotalTracker\FilterClasses\FilterFactory();
-        $filtersArray = array();
+        $filterFactory = new FilterFactory();
 
-        foreach ($filters as $filter){
-            $class = $factory->loadClass($filter['name']);
-            $filtersArray[] = $class->create($filter['value']);
+        if(count($filters) >= 0) {
+            foreach ($filters as $type => $value) {
+                if(!empty($value)) {
+                    $class = $filterFactory->create($type);
+                    $this->filters = array_merge($class->filter($value), $this->filters);
+                }
+            }
         }
 
-        return $request->getQuery()->set('filter', $this->api->formatFilter($filtersArray));
+        return $this;
     }
 
     /**

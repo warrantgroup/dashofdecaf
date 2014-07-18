@@ -4,13 +4,32 @@
 
      <script type="text/javascript">
          $(document).ready(function () {
-             $( "#stories" ).load( "stories", {
-                 "filters" : {
-                     "query" : '',
-                     "type": [],
-                     "status": []
-                 }
-             });
+
+             find(filter());
+
+             function find(params) {
+                 $("#stories").load("stories", {
+                     "filters": params
+                 });
+             }
+
+             function filter() {
+                 var filters = {}
+
+                 filters.storyType = [];
+                 filters.storyState = [];
+                 filters.search = '';
+
+                 $("input[name='storyType[]']:checked").each(function() {
+                     filters.storyType.push($(this).val());
+                 });
+
+                 $("input[name='storyState[]']:checked").each(function() {
+                     filters.storyState.push($(this).val());
+                 });
+
+                 return filters;
+             }
          });
      </script>
 
@@ -35,56 +54,58 @@
                  <div class="row">
                      <div class="well">
                          <p><strong>Story Type</strong></p>
+
                          <div class="input-group" style="margin-bottom: 20px;">
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="feature" checked>
+                                     <input type="checkbox" name="storyType[]" value="feature" checked>
                                      Features
                                  </label>
                              </div>
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="bug" checked>
+                                     <input type="checkbox" name="storyType[]" value="bug" checked>
                                      Bugs
                                  </label>
                              </div>
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="chore" checked>
+                                     <input type="checkbox" name="storyType[]" value="chore" checked>
                                      Chores
                                  </label>
                              </div>
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="">
+                                     <input type="checkbox" name="storyType[]" value="release">
                                      Releases
                                  </label>
                              </div>
                          </div>
 
                          <p><strong>Story Status</strong></p>
+
                          <div class="input-group">
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="workinprogress" checked>
+                                     <input type="checkbox" name="storyState[]" value="workInProgress" checked>
                                      Work in Progress
                                  </label>
                              </div>
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="finished" checked>
+                                     <input type="checkbox" name="storyState[]" value="finished" checked>
                                      Finished
                                  </label>
                              </div>
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="scheduled">
+                                     <input type="checkbox" name="storyState[]" value="scheduled">
                                      Scheduled
                                  </label>
                              </div>
                              <div class="checkbox">
                                  <label>
-                                     <input type="checkbox" value="icebox">
+                                     <input type="checkbox" name="storyState[]" value="icebox">
                                      Icebox
                                  </label>
                              </div>

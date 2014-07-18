@@ -6,7 +6,7 @@ use PivotalTracker\Filter\FilterInterface;
 
 class SearchFilter implements FilterInterface
 {
-    public function create($value)
+    public function filter($value)
     {
         return array('name' => $value);
     }
