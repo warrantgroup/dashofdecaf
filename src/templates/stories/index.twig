@@ -18,13 +18,14 @@
              /**
               * Get filters
               *
-              * @returns {{}}
+              * @returns Object
               */
              function getFilters() {
                  var filters = {};
                  filters.storyType = [];
                  filters.storyState = [];
                  filters.search = '';
+                 filters.label = '';
 
                  $("input[name='storyType[]']:checked").each(function() {
                      filters.storyType.push($(this).val());
@@ -33,6 +34,8 @@
                  $("input[name='storyState[]']:checked").each(function() {
                      filters.storyState.push($(this).val());
                  });
+
+                 filters.label = $("select[name='label']").val();
 
                  filters.search = $("input:text[name='search']").val();
 
@@ -44,6 +47,10 @@
 
              // Filter on checkbox change
              $('input[type="checkbox"]').change(function () {
+                 find();
+             });
+
+             $("label").change(function() {
                  find();
              });
 
@@ -137,6 +144,21 @@
                                  <label>
                                      <input type="checkbox" name="storyState[]" value="icebox">
                                      Icebox
+                                 </label>
+                             </div>
+                         </div>
+
+                         <p><strong>Label</strong></p>
+
+                         <div class="input-group">
+                             <div class="selectbox">
+                                 <label>
+                                     <select name="label">
+                                         <option name="label" value="all">All</option>
+                                        {% for label in labels %}
+                                            <option name="label" value={{ label.label }}>{{ label.description }}</option>
+                                        {% endfor %}
+                                     </select>
                                  </label>
                              </div>
                          </div>

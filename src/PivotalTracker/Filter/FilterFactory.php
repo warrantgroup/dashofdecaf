@@ -15,6 +15,9 @@ class FilterFactory
             case 'storyType' :
                 return new StoryTypeFilter();
                 break;
+            case 'label' :
+                return new LabelFilter();
+                break;
             default :
                 throw new \InvalidArgumentException('Invalid Map Type');
                 break;

@@ -27,7 +27,8 @@ $app->get('/', function() use ($app) {
 $app->get('/stories', function() use ($app, $api) {
 
 	return $app['twig']->render('stories/index.twig', array(
-        'stories' => null
+        'stories' => null,
+        'labels' => $app['config']['labels']
 	));
 
 })->bind('stories');

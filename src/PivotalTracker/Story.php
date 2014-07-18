@@ -52,7 +52,6 @@ class Story {
             )
         );
 
-
         $response = $request->send();
         return $this->buildList($response->json());
     }
