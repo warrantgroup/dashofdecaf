@@ -33,12 +33,20 @@ $app->get('/stories', function() use ($app, $api) {
 
 })->bind('stories');
 
+$app->get('/changelog', function(Request $request) use ($app, $api) {
+
+    return $app['twig']->render('changelog/index.twig', array(
+        'stories' => null,
+        'labels' => $app['config']['labels']
+    ));
+
+})->bind('changelog');
+
 $app->post('/stories', function(Request $request) use ($app, $api) {
 
     $params = $request->request->all();
-
     $story = new PivotalTracker\Story($api);
-    $storyCollection = $story->search($params);
+    $collection = $story->search($params);
 
     if(!isset($params['offset'])) {
         $params['offset'] = 0;
@@ -46,27 +54,38 @@ $app->post('/stories', function(Request $request) use ($app, $api) {
 
     if($request->isXmlHttpRequest()) {
         return $app['twig']->render('stories/list.twig', array(
-            'stories' => $storyCollection,
+            'stories' => $collection,
             'page' => $params['offset']
         ));
     }
 
 });
 
+$app->post('/changelog', function(Request $request) use ($app, $api) {
 
+    $params = $request->request->all();
 
-$app->get('/changelog', function(Request $request) use ($app, $api) {
+    $params['changelog'] = true;
 
-    $params = $request->query->all();
+    $params['filters']['storyType'] = array('feature', 'bug');
+    $params['filters']['storyStatus'] = array('finished');
 
-    $client = new PivotalTracker\ChangeLog($api);
-    $changelog = $client->build($params);
+    $story = new PivotalTracker\Story($api);
+    $collection = $story->search($params);
 
-    return $app['twig']->render('changelog.twig', array(
-         'features' => $changelog['feature'],
-         'bugs' => $changelog['bug'],
-         'labels' => $app['config']['labels']
-    ));
+    if(!isset($params['offset'])) {
+        $params['offset'] = 0;
+    }
+
+    if($request->isXmlHttpRequest()) {
+        return $app['twig']->render('changelog/list.twig', array(
+            'features' => $collection->get('feature'),
+            'bugs' =>$collection->get('bug'),
+            'page' => $params['offset']
+        ));
+    }
+
 });
 
 return $app;
+

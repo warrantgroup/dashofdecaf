@@ -8,6 +8,10 @@ class LabelFilter implements FilterInterface
 {
     public function filter($value)
     {
+        if($value == 'all') {
+            return array();
+        }
+        
         return array('label' => $value);
     }
 }

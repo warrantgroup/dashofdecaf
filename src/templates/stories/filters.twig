@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="well">
+        <p><strong>Label</strong></p>
+
+        <div class="input-group">
+            <div class="selectbox">
+                <label>
+                    <select name="label" class="form-control">
+                        <option name="label" value="all">All</option>
+                        {% for label in labels %}
+                            <option name="label" value={{ label.label }}>{{ label.description }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <p><strong>Date Range</strong></p>
+
+        <div class="input-group">
+            <div class="selectbox">
+                <label>
+                    <select name="dateRange" class="form-control">
+                        <option value="anytime">Anytime</option>
+                        <option value="week">This Week</option>
+                        <option value="fortnight">Last Fortnight</option>
+                        <option value="month" selected>Last Month</option>
+                        <option value="year">Last Year</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <p><strong>Story Type</strong></p>
+
+        <div class="input-group" style="margin-bottom: 20px;">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyType[]" value="feature" checked>
+                    Features
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyType[]" value="bug" checked>
+                    Bugs
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyType[]" value="chore" checked>
+                    Chores
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyType[]" value="release">
+                    Releases
+                </label>
+            </div>
+        </div>
+
+        <p><strong>Story Status</strong></p>
+
+        <div class="input-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyStatus[]" value="workInProgress" checked>
+                    Work in Progress
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyStatus[]" value="finished" checked>
+                    Finished
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyStatus[]" value="scheduled">
+                    Scheduled
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="storyStatus[]" value="icebox">
+                    Icebox
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

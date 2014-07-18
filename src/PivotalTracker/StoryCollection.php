@@ -198,6 +198,18 @@ class StoryCollection implements Countable, IteratorAggregate, ArrayAccess
     }
 
     /**
+     * Get an element in the collection at the index / with the specified key.
+     *
+     * @param mixed $key
+     */
+    public function get($key)
+    {
+        if(isset($this->_elements[$key])) {
+            return $this->_elements[$key];
+        }
+    }
+
+    /**
      * Adds an element to the collection.
      *
      * @param mixed $value
@@ -240,19 +252,4 @@ class StoryCollection implements Countable, IteratorAggregate, ArrayAccess
         $this->_elements = array();
     }
 
-    /**
-     * Extract a slice of $length elements starting at position $offset from the Collection.
-     *
-     * If $length is null it returns all elements from $offset to the end of the Collection.
-     * Keys have to be preserved by this method. Calling this method will only return the
-     * selected slice and NOT change the elements contained in the collection slice is called on.
-     *
-     * @param int $offset
-     * @param int $length
-     * @return array
-     */
-    public function slice($offset, $length = null)
-    {
-        return array_slice($this->_elements, $offset, $length, true);
-    }
 }

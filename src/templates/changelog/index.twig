@@ -6,11 +6,11 @@
          $(document).ready(function () {
 
              /**
-              * Find Stories
+              * Find Changes
               * @param params
               */
              function find(params) {
-                 $("#stories").load("stories", {
+                 $("#changelog").load("changelog", {
                      "filters": getFilters()
                  });
              }
@@ -22,34 +22,19 @@
               */
              function getFilters() {
                  var filters = {};
-                 filters.storyType = [];
-                 filters.storyStatus = [];
-                 filters.search = '';
+                 filters.dateRange = '';
                  filters.label = '';
-
-                 $("input[name='storyType[]']:checked").each(function() {
-                     filters.storyType.push($(this).val());
-                 });
-
-                 $("input[name='storyStatus[]']:checked").each(function() {
-                     filters.storyStatus.push($(this).val());
-                 });
+                 filters.search = '';
 
                  filters.label = $("select[name='label']").val();
                  filters.search = $("input:text[name='search']").val();
-                 filters.createdDateRange = $("select[name='dateRange']").val();
+                 filters.acceptedDateRange = $("select[name='dateRange']").val();
 
                  return filters;
              }
 
              // Show inital stories
              find();
-
-             // Filter on checkbox change
-             $('input[type="checkbox"]').change(function () {
-                 find();
-             });
-
 
              var delay = (function(){
                  var timer = 0;
@@ -64,17 +49,22 @@
                  find();
              });
 
-             // Filter on date range
-             $('select[name="dateRange"]').on('change', function() {
-                 find();
-             });
-
              // Filter on search query
              $('input:text[name="search"]').on('input', function() {
                  delay(function(){
                      find();
                  }, 400 );
              });
+
+             // Filter on date range
+             $('select[name="dateRange"]').on('change', function() {
+                 find();
+             });
+
+             $("div .panel-body li").click(function() {
+                 $(this).next("ul").toggle();
+             });
+
          });
      </script>
 
@@ -91,11 +81,11 @@
          </div>
 
          <div class="row">
-             <div class="col-md-9" id="stories">
-
+             <div class="col-md-9" id="changelog">
              </div>
+
              <div class="col-md-3">
-                 {% include 'stories/filters.twig' %}
+                 {% include 'changelog/filters.twig' %}
              </div>
          </div>
      </div>
