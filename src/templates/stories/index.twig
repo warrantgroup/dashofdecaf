@@ -11,9 +11,34 @@
               */
              function find(params) {
                  $("#stories").load("stories", {
-                     "filters": getFilters()
+                     "filters": getFilters(),
+                     "offset": {{ page }}
                  });
              }
+
+             /**
+              * Next Page
+              * @param params
+              */
+             $("#next").click(function(){
+               {% set page = page + 1 %}
+               $("#stories").load("stories", {
+                     "filters": getFilters(),
+                     "offset": {{ page }}
+                 });
+             });
+
+             /**
+              * Previous Page
+              * @param params
+              */
+             $("#previous").click(function(){
+               {% set page = page - 1 %}
+               $("#stories").load("stories", {
+                     "filters": getFilters(),
+                     "offset": {{ page }}
+                 });
+             });
 
              /**
               * Get filters
@@ -161,6 +186,12 @@
                                      </select>
                                  </label>
                              </div>
+                         </div>
+                         <div class="input-group">
+                             <ul class="pager">
+                                 <li><a id="previous">Prev Page</a></li>
+                                 <li><a id="next">Next Page</a></li>
+                             </ul>
                          </div>
                      </div>
                  </div>

@@ -28,7 +28,8 @@ $app->get('/stories', function() use ($app, $api) {
 
 	return $app['twig']->render('stories/index.twig', array(
         'stories' => null,
-        'labels' => $app['config']['labels']
+        'labels' => $app['config']['labels'],
+        'page' => 0
 	));
 
 })->bind('stories');
@@ -46,8 +47,7 @@ $app->post('/stories', function(Request $request) use ($app, $api) {
 
     if($request->isXmlHttpRequest()) {
         return $app['twig']->render('stories/list.twig', array(
-            'stories' => $storyCollection,
-            'page' => $params['offset']
+            'stories' => $storyCollection
         ));
     }
 
