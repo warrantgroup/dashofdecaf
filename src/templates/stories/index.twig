@@ -26,6 +26,8 @@
                      filters.storyState.push($(this).val());
                  });
 
+                 filters.search = $("input:text[name='search']").val();
+
                  return filters;
              }
 
@@ -36,6 +38,21 @@
              $('input[type="checkbox"]').change(function () {
                  find(filter());
              });
+
+             var delay = (function(){
+                 var timer = 0;
+                 return function(callback, ms){
+                     clearTimeout (timer);
+                     timer = setTimeout(callback, ms);
+                 };
+             })();
+
+             // Filter on search query
+             $('input:text[name="search"]').on('input', function() {
+                 delay(function(){
+                     find(filter());
+                 }, 600 );
+             });
          });
      </script>
 
@@ -43,8 +60,7 @@
 
          <div class="row" style="margin-bottom: 15px; margin-left: 1px;">
              <div class="input-group">
-                 <input type="hidden" name="search_param" value="all" id="search_param">
-                 <input type="text" class="form-control" name="x" placeholder="Search term...">
+                 <input type="text" class="form-control" name="search" placeholder="Search term...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button"><span
                                         class="glyphicon glyphicon-search"></span></button>
