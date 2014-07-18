@@ -11,9 +11,34 @@
               */
              function find(params) {
                  $("#stories").load("stories", {
-                     "filters": getFilters()
+                     "filters": getFilters(),
+                     "offset": {{ page }}
                  });
              }
+
+             /**
+              * Next Page
+              * @param params
+              */
+             $("#next").click(function(){
+               {% set page = page + 1 %}
+               $("#stories").load("stories", {
+                     "filters": getFilters(),
+                     "offset": {{ page }}
+                 });
+             });
+
+             /**
+              * Previous Page
+              * @param params
+              */
+             $("#previous").click(function(){
+               {% set page = page - 1 %}
+               $("#stories").load("stories", {
+                     "filters": getFilters(),
+                     "offset": {{ page }}
+                 });
+             });
 
              /**
               * Get filters

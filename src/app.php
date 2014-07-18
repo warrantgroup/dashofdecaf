@@ -28,7 +28,8 @@ $app->get('/stories', function() use ($app, $api) {
 
 	return $app['twig']->render('stories/index.twig', array(
         'stories' => null,
-        'labels' => $app['config']['labels']
+        'labels' => $app['config']['labels'],
+        'page' => 0
 	));
 
 })->bind('stories');
