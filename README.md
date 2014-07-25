@@ -44,7 +44,7 @@ labels:
     iced: "Iced Coffee"
 ```
 
-### Cache Permissons
+### Cache Directory Permissons
 
 ```
 chmod 777 cache
