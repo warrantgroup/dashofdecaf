@@ -4,7 +4,7 @@ Dash of Decaf
 One Friday we decided to have a sprint, with the aim to create an simple interface using the Pivotal REST API to bridge the gap between software development, and the average end-user waiting for something to happen.
 
 * Stories (per label, with filters)
-* Changelog (new features and fixed bugs with a period of time)
+* Changelog (new features and fixed bugs within a period of time)
 * Roadmap (releases ordered by deadline)
 
 Using :
