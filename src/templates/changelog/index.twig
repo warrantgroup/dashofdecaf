@@ -4,67 +4,7 @@
 
      <script type="text/javascript">
          $(document).ready(function () {
-
-             /**
-              * Find Changes
-              * @param params
-              */
-             function find(params) {
-                 $("#changelog").load("changelog", {
-                     "filters": getFilters()
-                 });
-             }
-
-             /**
-              * Get filters
-              *
-              * @returns object
-              */
-             function getFilters() {
-                 var filters = {};
-                 filters.dateRange = '';
-                 filters.label = '';
-                 filters.search = '';
-
-                 filters.label = $("select[name='label']").val();
-                 filters.search = $("input:text[name='search']").val();
-                 filters.acceptedDateRange = $("select[name='dateRange']").val();
-
-                 return filters;
-             }
-
-             // Show inital stories
-             find();
-
-             var delay = (function(){
-                 var timer = 0;
-                 return function(callback, ms){
-                     clearTimeout (timer);
-                     timer = setTimeout(callback, ms);
-                 };
-             })();
-
-             // Filter on label
-             $("label").change(function() {
-                 find();
-             });
-
-             // Filter on search query
-             $('input:text[name="search"]').on('input', function() {
-                 delay(function(){
-                     find();
-                 }, 400 );
-             });
-
-             // Filter on date range
-             $('select[name="dateRange"]').on('change', function() {
-                 find();
-             });
-
-             $("div .panel-body li").click(function() {
-                 $(this).next("ul").toggle();
-             });
-
+             find('changelog');
          });
      </script>
 

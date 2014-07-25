@@ -6,6 +6,7 @@
 
 namespace PivotalTracker;
 use \Guzzle\Http\Exception\ClientErrorResponseException;
+use PivotalTracker\Filter\FilterInterface;
 use PivotalTracker\StoryCollection, PivotalTracker\Filter\FilterFactory;
 
 class Story {
@@ -13,11 +14,30 @@ class Story {
     protected $api;
     protected $labels = array();
     protected $filters = array();
+    protected $limit = 30;
 
     public function __construct($api)
     {
         $this->api = $api;
-        $this->url = sprintf('https://www.pivotaltracker.com/services/v5/projects/%s/stories', $api->getProjectId());
+        $this->url = sprintf('https://www.pivotaltracker.com/services/v5/projects/%s/search', $api->getProjectId());
+    }
+
+    /**
+     * Limit number of stories
+     *
+     * @return int
+     */
+    public function getLimit() {
+        return $this->limit;
+    }
+
+    /**
+     * Return stories from cache
+     *
+     * @return mixed
+     */
+    public function getCache() {
+        return $this->cache;
     }
 
     /**
@@ -35,29 +55,18 @@ class Story {
      * @return array
      */
     public function search($params = array()) {
+
         $client = new \Guzzle\Http\Client();
 
-        if(!isset($params['limit'])) {
-            $params['limit'] = 20;
-        }
-
-        // Always include "done" stories from previous iterations unless specified in params
-        if(!isset($params['includeDone'])){
-            $this->addFilter(array('includeDone' => 'true'));
-        }
+        // Always include "done" stories from previous iterations
+        $this->addFilter(array('includeDone' => 'true'));
 
         if(isset($params['filters'])) {
             $this->addFilter($params['filters']);
         }
 
-        $query = array(
-            'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
-            'limit' => $params['limit']
-        );
-
-
         if(count($this->filters) > 0) {
-            $query['filter'] = $this->api->formatFilter($this->filters);
+            $query['query'] = $this->api->formatFilter($this->filters);
         }
 
         $request = $client->get($this->url, array(
@@ -67,8 +76,8 @@ class Story {
             )
         );
 
-        $response = $request->send();
-        return $this->build($response->json(), $params);
+        $response = $request->send()->json();
+        return $this->build($response['stories']['stories'], $params);
     }
 
     /**
@@ -94,19 +103,20 @@ class Story {
     }
 
     /**
-     * Build story collection
+     * Build Story Collection
      *
      * @param $stories
-     * @return mixed
+     * @param array $params
+     * @return StoryCollection
      */
-    public function build($stories, $params = array()) {
+    protected function build($stories, $params = array()) {
 
         if(isset($params['changelog'])) {
             return $this->groupByStatus($stories, array('bug', 'feature'));
         }
 
         if(isset($params['release'])) {
-            $stories = $this->subval_sort($stories, 'deadline');
+            $stories = $this->sortByDeadline($stories);
         }
 
         $collection = new \PivotalTracker\StoryCollection;
@@ -124,6 +134,7 @@ class Story {
      * Filter story values returned from API
      *
      * @param $story
+     * @return array
      */
     protected function storyItem($story) {
         return array(
@@ -132,31 +143,9 @@ class Story {
             'description' => (isset($story['description']))? $story['description'] : '',
             'current_state' => $story['current_state'],
             'story_type' => $story['story_type'],
+            'deadline' => (isset($story['deadline'])) ? $story['deadline'] : '',
             'url' => $story['url']
         );
-    }
-
-    /**
-     * Groups releases in array according to deadline
-     */
-    protected function subval_sort($a,$subkey) {
-            $c = array();
-            $nulls = array();
-            foreach($a as $k=>$v) {
-                $b[$k] = strtolower($v[$subkey]);
-            }
-            asort($b);
-            foreach($b as $key=>$val) {
-                if (empty($val)){
-                    $nulls[] = $key;
-                } else {
-                    $c[] = $a[$key];
-                }
-            }
-            foreach ($nulls as $recordKey){
-                $c[] = $a[$recordKey];
-            }
-            return $c;
     }
 
     /**
@@ -164,7 +153,7 @@ class Story {
      *
      * @params $status array of expected story statuses
      */
-    public function groupByStatus($stories, $statuses = array()) {
+    protected function groupByStatus($stories, $statuses = array()) {
 
         $group = array();
 
@@ -183,5 +172,21 @@ class Story {
         }
 
         return $collection;
+    }
+
+    /**
+     * Sort by Deadline
+     *
+     * @param $stories
+     */
+    protected function sortByDeadline($stories) {
+
+        usort($stories, function($a, $b) {
+            if(isset($a['deadline']) && isset($b['deadline'])) {
+                return strtotime($b['deadline']) - strtotime($a['deadline']);
+            }
+        });
+
+        return $stories;
     }
 }

@@ -23,6 +23,9 @@ class FilterFactory
                 $filter = new DateRangeFilter();
                 return $filter->setType('created');
                 break;
+            case 'limit' :
+                return new LimitFilter();
+                break;
             case 'label' :
                 return new LabelFilter();
                 break;

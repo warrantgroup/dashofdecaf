@@ -4,102 +4,7 @@
 
      <script type="text/javascript">
          $(document).ready(function () {
-
-             /**
-              * Find Stories
-              * @param params
-              */
-             function find(params) {
-                 $("#stories").load("stories", {
-                     "filters": getFilters(),
-                     "offset": {{ page }}
-                 });
-             }
-
-             /**
-              * Next Page
-              * @param params
-              */
-             $("#next").click(function(){
-               {% set page = page + 1 %}
-               $("#stories").load("stories", {
-                     "filters": getFilters(),
-                     "offset": {{ page }}
-                 });
-             });
-
-             /**
-              * Previous Page
-              * @param params
-              */
-             $("#previous").click(function(){
-               {% set page = page - 1 %}
-               $("#stories").load("stories", {
-                     "filters": getFilters(),
-                     "offset": {{ page }}
-                 });
-             });
-
-             /**
-              * Get filters
-              *
-              * @returns object
-              */
-             function getFilters() {
-                 var filters = {};
-                 filters.storyType = [];
-                 filters.storyStatus = [];
-                 filters.search = '';
-                 filters.label = '';
-
-                 $("input[name='storyType[]']:checked").each(function() {
-                     filters.storyType.push($(this).val());
-                 });
-
-                 $("input[name='storyStatus[]']:checked").each(function() {
-                     filters.storyStatus.push($(this).val());
-                 });
-
-                 filters.label = $("select[name='label']").val();
-                 filters.search = $("input:text[name='search']").val();
-                 filters.createdDateRange = $("select[name='dateRange']").val();
-
-                 return filters;
-             }
-
-             // Show inital stories
-             find();
-
-             // Filter on checkbox change
-             $('input[type="checkbox"]').change(function () {
-                 find();
-             });
-
-
-             var delay = (function(){
-                 var timer = 0;
-                 return function(callback, ms){
-                     clearTimeout (timer);
-                     timer = setTimeout(callback, ms);
-                 };
-             })();
-
-             // Filter on label
-             $("label").change(function() {
-                 find();
-             });
-
-             // Filter on date range
-             $('select[name="dateRange"]').on('change', function() {
-                 find();
-             });
-
-             // Filter on search query
-             $('input:text[name="search"]').on('input', function() {
-                 delay(function(){
-                     find();
-                 }, 400 );
-             });
+             find('stories');
          });
      </script>
 
@@ -117,7 +22,6 @@
 
          <div class="row">
              <div class="col-md-9" id="stories">
-
              </div>
              <div class="col-md-3">
                  {% include 'stories/filters.twig' %}

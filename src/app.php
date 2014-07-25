@@ -5,6 +5,8 @@ use Silex\Provider\TwigServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\ArrayAdapter;
 
 $app = new Silex\Application();
 $app['debug'] = true;
@@ -17,6 +19,13 @@ if(!file_exists(__DIR__ . '/config.yml')) {
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/templates'));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new DerAlex\Silex\YamlConfigServiceProvider(__DIR__ . '/config.yml'));
+$app->register(new FranMoreno\Silex\Provider\PagerfantaServiceProvider());
+$app->register(new Moust\Silex\Provider\CacheServiceProvider(), array(
+    'cache.options' => array(
+        'driver' => 'file',
+        'cache_dir' => realpath(__DIR__ . '/../cache')
+    )
+));
 
 $api = new \PivotalTracker\Api($app['config']['pivotaltracker']);
 
@@ -25,17 +34,14 @@ $app->get('/', function() use ($app) {
 });
 
 $app->get('/stories', function() use ($app, $api) {
-
 	return $app['twig']->render('stories/index.twig', array(
         'stories' => null,
-        'labels' => $app['config']['labels'],
-        'page' => 0
+        'labels' => $app['config']['labels']
 	));
 
 })->bind('stories');
 
 $app->get('/changelog', function(Request $request) use ($app, $api) {
-
     return $app['twig']->render('changelog/index.twig', array(
         'stories' => null,
         'labels' => $app['config']['labels']
@@ -57,19 +63,23 @@ $app->get('/roadmap', function() use ($app, $api) {
 
 $app->post('/stories', function(Request $request) use ($app, $api) {
 
-    $params = $request->request->all();
     $story = new PivotalTracker\Story($api);
     $story->setLabels($app['config']['labels']);
-    $collection = $story->search($params);
 
-    if(!isset($params['offset'])) {
-        $params['offset'] = 0;
+    $page = $request->request->get('page');
+
+    if(empty($page)) {
+        $app['cache']->store('stories', $story->search($request->request->all())->toArray());
     }
+
+    $pagerfanta = new Pagerfanta(new ArrayAdapter($app['cache']->fetch('stories')));
+    $pagerfanta->setMaxPerPage($story->getLimit());
+    $pagerfanta->setCurrentPage((int) ($page) ? $page : 1);
 
     if($request->isXmlHttpRequest()) {
         return $app['twig']->render('stories/list.twig', array(
-            'stories' => $collection,
-            'page' => $params['offset']
+            'stories' => $pagerfanta->getCurrentPageResults(),
+            'pager' => $pagerfanta
         ));
     }
 

@@ -7,7 +7,6 @@ use Countable, IteratorAggregate, ArrayAccess, ArrayIterator;
  */
 class StoryCollection implements Countable, IteratorAggregate, ArrayAccess
 {
-
     private $_elements;
 
     public function __construct(array $elements = array())

@@ -1,9 +1,30 @@
 {% for story in stories %}
     {% include 'stories/story.twig' %}
 {% endfor %}
-<div class="row">
-    <ul class="pager">
-        <li><a href="#" onClick="location.href='{{ url('stories', {'page': 0})}}'">Previous</a></li>
-        <li><a href="#" onClick="location.href='{{ url('stories', {'page': 0})}}'">Next</a></li>
-    </ul>
-</div>
+
+ {% if pager.haveToPaginate %}
+     <ul class="pagination">
+         {# back #}
+         {% set state = '' %}
+         {% if  pager.getCurrentPage()  == 1 %}
+             {% set state = 'disabled' %}
+         {% endif %}
+         <li class="{{ state }}"><a onclick="loadStories({{ pager.getCurrentPage() -1 }})">&laquo;</a></li>
+
+         {# pages 1 2 3 ... #}
+         {% for givenPage in 1..pager.getNbPages() %}
+             {% set state = '' %}
+             {% if  pager.getCurrentPage()  == givenPage %}
+                 {% set state = 'active' %}
+             {% endif %}
+             <li class="{{ state }}"><a onclick="loadStories({{ givenPage }})">{{ givenPage }}</a></li>
+         {% endfor %}
+
+         {# forward #}
+         {% set state = '' %}
+         {% if  pager.getCurrentPage() == pager.getNbPages() %}
+             {% set state = 'disabled' %}
+         {% endif %}
+         <li class="{{ state }}"><a onclick="loadStories({{ pager.getCurrentPage() +1 }})">&raquo;</a></li>
+     </ul>
+ {% endif %}
