@@ -18,7 +18,7 @@ class DateRangeFilter implements FilterInterface
 
         if(is_string($value)) {
             switch ($value) {
-                case 'week' :
+                case 'week':
                     $range[0] = new \DateTime('Monday this week');
                     $range[1] = new \DateTime('Sunday this week');
                     break;
@@ -28,9 +28,9 @@ class DateRangeFilter implements FilterInterface
                     $range[1] = new \DateTime('last day of this month');
                     break;
 
-                case 'year' :
-                    $range[0] = new \DateTime('first day of this year');
-                    $range[1] = new \DateTime('last day of this year');
+                case 'year':
+                    $range[0] = new \DateTime('first day of January this year');
+                    $range[1] = new \DateTime('last day of December this year');
                     break;
 
                 case 'fortnight':
