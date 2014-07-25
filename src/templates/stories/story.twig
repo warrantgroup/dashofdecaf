@@ -3,7 +3,11 @@
         {% if story.current_state == 'accepted' or story.current_state == 'finished' %}
             <span class='label label-success pull-right'>Finished</span>
         {% elseif story.current_state == 'delivered' or story.current_state == 'rejected' or story.current_state == 'started' %}
-            <span class='label label-warning pull-right'>Work in progress</span>
+            <span class='label label-info pull-right'>Work in progress</span>
+        {% elseif story.current_state == 'planned' or story.current_state == 'unstarted' %}
+            <span class='label label-warning pull-right'>Scheduled</span>
+        {% elseif story.current_state == 'unscheduled' %}
+            <span class='label label-danger pull-right'>Icebox</span>
         {% endif %}
         <h3 class='panel-title'>
             {% if story.story_type == 'bug' %}
