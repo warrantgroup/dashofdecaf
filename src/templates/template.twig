@@ -38,9 +38,12 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="stories">Stories</a></li>
-                <li><a href="changelog">Changelog</a></li>
-                <li><a href="roadmap">Roadmap</a></li>
+        {% set navigation_bar = [['stories', 'Stories'], ['changelog', 'Changelog'], ['roadmap', 'Roadmap']] %}
+        {% set active_page = active_page|default('stories') %}
+        {% for item in navigation_bar %}
+            <li{% if item[0] == active_page %} class="active"{% endif%}>
+                <a href="{{ app.url_generator.generate(item[0]) }}">{{item[1]}}</a></li>
+        {% endfor %}
             </ul>
         </div>
     </div>
