@@ -41,8 +41,10 @@ class Story {
             $params['limit'] = 20;
         }
 
-        // Always include "done" stories from previous iterations
-        $this->addFilter(array('includeDone' => 'true'));
+        // Always include "done" stories from previous iterations unless specified in params
+        if(!isset($params['includeDone'])){
+            $this->addFilter(array('includeDone' => 'true'));
+        }
 
         if(isset($params['filters'])) {
             $this->addFilter($params['filters']);
@@ -52,6 +54,7 @@ class Story {
             'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
             'limit' => $params['limit']
         );
+
 
         if(count($this->filters) > 0) {
             $query['filter'] = $this->api->formatFilter($this->filters);
@@ -102,6 +105,10 @@ class Story {
             return $this->groupByStatus($stories, array('bug', 'feature'));
         }
 
+        if(isset($params['release'])) {
+            $stories = $this->subval_sort($stories, 'deadline');
+        }
+
         $collection = new \PivotalTracker\StoryCollection;
 
         foreach($stories as $story) {
@@ -127,6 +134,29 @@ class Story {
             'story_type' => $story['story_type'],
             'url' => $story['url']
         );
+    }
+
+    /**
+     * Groups releases in array according to deadline
+     */
+    protected function subval_sort($a,$subkey) {
+            $c = array();
+            $nulls = array();
+            foreach($a as $k=>$v) {
+                $b[$k] = strtolower($v[$subkey]);
+            }
+            asort($b);
+            foreach($b as $key=>$val) {
+                if (empty($val)){
+                    $nulls[] = $key;
+                } else {
+                    $c[] = $a[$key];
+                }
+            }
+            foreach ($nulls as $recordKey){
+                $c[] = $a[$recordKey];
+            }
+            return $c;
     }
 
     /**

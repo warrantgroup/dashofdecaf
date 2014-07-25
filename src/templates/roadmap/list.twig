@@ -1,0 +1,21 @@
+<div class='panel panel-default'>
+    <div class='panel-heading'>
+        <h3 class='panel-title'>
+            <i class='fa icon-release'></i>
+            Releases</h3>
+    </div>
+    <div class='panel-body' style='overflow: hidden;'>
+        {% if releases|length > 0 %}
+            <ul>
+                {% for release in releases %}
+                    <li>{{ release.name }}</li>
+                    <ul>
+                        {% if release.description|default %}
+                            <li>{{ release.description }}</li>
+                        {% endif %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

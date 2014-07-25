@@ -43,6 +43,18 @@ $app->get('/changelog', function(Request $request) use ($app, $api) {
 
 })->bind('changelog');
 
+$app->get('/roadmap', function() use ($app, $api) {
+    $story = new PivotalTracker\Story($api);
+    $params['filters'] = array('storyType' => array('release'));
+    $params['limit'] = 100;
+    $params['includeDone'] = false;
+    $params['release'] = true;
+    return $app['twig']->render('roadmap/index.twig', array(
+        'releases' => $story->search($params)
+    ));
+
+})->bind('roadmap');
+
 $app->post('/stories', function(Request $request) use ($app, $api) {
 
     $params = $request->request->all();
