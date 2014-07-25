@@ -6,8 +6,8 @@
             <div class="selectbox">
                 <label>
                     <select name="label" class="form-control">
-                        <option name="label" value="all">All</option>
                         {% for key, label in labels %}
+
                             <option name="label" value={{ key }}>{{ label }}</option>
                         {% endfor %}
                     </select>

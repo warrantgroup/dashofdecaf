@@ -48,10 +48,6 @@ class Story {
             $this->addFilter($params['filters']);
         }
 
-        if($params['filters']['label'] == 'all') {
-            $this->filters['label'] = array_keys($this->labels);
-        }
-
         $query = array(
             'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
             'limit' => $params['limit']
