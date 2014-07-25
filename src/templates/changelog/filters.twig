@@ -6,9 +6,8 @@
             <div class="selectbox">
                 <label>
                     <select name="label" class="form-control">
-                        <option name="label" value="all">All</option>
-                        {% for label in labels %}
-                            <option name="label" value={{ label.label }}>{{ label.description }}</option>
+                        {% for key, label in labels %}
+                            <option name="label" value={{ key }}>{{ label }}</option>
                         {% endfor %}
                     </select>
                 </label>
@@ -18,7 +17,6 @@
         <p><strong>Date Range</strong></p>
 
         <select name="dateRange" class="form-control">
-            <option value="anytime">Anytime</option>
             <option value="week">This Week</option>
             <option value="fortnight" selected>Last Fortnight</option>
             <option value="month">Last Month</option>
