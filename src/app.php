@@ -47,6 +47,7 @@ $app->post('/stories', function(Request $request) use ($app, $api) {
 
     $params = $request->request->all();
     $story = new PivotalTracker\Story($api);
+    $story->setLabels($app['config']['labels']);
     $collection = $story->search($params);
 
     if(!isset($params['offset'])) {
@@ -67,11 +68,11 @@ $app->post('/changelog', function(Request $request) use ($app, $api) {
     $params = $request->request->all();
 
     $params['changelog'] = true;
-
     $params['filters']['storyType'] = array('feature', 'bug');
     $params['filters']['storyStatus'] = array('finished');
 
     $story = new PivotalTracker\Story($api);
+    $story->setLabels($app['config']['labels']);
     $collection = $story->search($params);
 
     if(!isset($params['offset'])) {

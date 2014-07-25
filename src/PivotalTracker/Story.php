@@ -11,12 +11,22 @@ use PivotalTracker\StoryCollection, PivotalTracker\Filter\FilterFactory;
 class Story {
 
     protected $api;
+    protected $labels = array();
     protected $filters = array();
 
     public function __construct($api)
     {
         $this->api = $api;
         $this->url = sprintf('https://www.pivotaltracker.com/services/v5/projects/%s/stories', $api->getProjectId());
+    }
+
+    /**
+     * Set Labels
+     *
+     * Only accept a set of labels for filtering stories
+     */
+    public function setLabels($labels) {
+        $this->labels = $labels;
     }
 
     /**
@@ -38,6 +48,10 @@ class Story {
             $this->addFilter($params['filters']);
         }
 
+        if($params['filters']['label'] == 'all') {
+            $this->filters['label'] = array_keys($this->labels);
+        }
+
         $query = array(
             'offset' => (isset($params['offset'])) ? $params['offset'] * $params['limit'] : 0,
             'limit' => $params['limit']
@@ -47,8 +61,6 @@ class Story {
             $query['filter'] = $this->api->formatFilter($this->filters);
         }
 
-        //var_dump($query['filter']);
-
         $request = $client->get($this->url, array(
             'X-TrackerToken' => $this->api->getToken()
         ), array(
@@ -57,7 +69,7 @@ class Story {
         );
 
         $response = $request->send();
-        return $this->buildList($response->json(), $params);
+        return $this->build($response->json(), $params);
     }
 
     /**
@@ -83,12 +95,12 @@ class Story {
     }
 
     /**
-     * Build story list
+     * Build story collection
      *
      * @param $stories
      * @return mixed
      */
-    public function buildList($stories, $params = array()) {
+    public function build($stories, $params = array()) {
 
         if(isset($params['changelog'])) {
             return $this->groupByStatus($stories, array('bug', 'feature'));

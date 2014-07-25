@@ -7,8 +7,8 @@
                 <label>
                     <select name="label" class="form-control">
                         <option name="label" value="all">All</option>
-                        {% for label in labels %}
-                            <option name="label" value={{ label.label }}>{{ label.description }}</option>
+                        {% for key, label in labels %}
+                            <option name="label" value={{ key }}>{{ label }}</option>
                         {% endfor %}
                     </select>
                 </label>

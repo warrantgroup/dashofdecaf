@@ -8,8 +8,8 @@ class LabelFilter implements FilterInterface
 {
     public function filter($value)
     {
-        if($value == 'all') {
-            return array();
+        if(is_array($value)) {
+            $value = implode(',', $value);
         }
         
         return array('label' => $value);
