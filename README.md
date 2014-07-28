@@ -1,7 +1,7 @@
 Dash of Decaf
 ============
 
-One Friday we decided to have a sprint, with the aim to create an simple interface using the Pivotal Tracker REST API to bridge the gap between agile software development, and the average end-user waiting for something to happen.
+One Friday we decided to have a sprint, with the aim to create an simple interface using the Pivotal Tracker REST API to bridge the gap between agile software development, and the average end-user waiting for something to be done.
 
 * Stories (per label, with filters)
 * Changelog (new features and fixed bugs within a period of time)
