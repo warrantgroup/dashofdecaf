@@ -50,7 +50,11 @@ class Story {
         $client = new \Guzzle\Http\Client();
 
         // Always include "done" stories from previous iterations
-        $this->addFilter(array('includeDone' => 'true'));
+        if (isset($params['includeDone'])){
+            $this->addFilter(array('includeDone' => $params['includeDone']));
+        } else {
+            $this->addFilter(array('includeDone' => 'true'));
+        }
 
         if(isset($params['filters'])) {
             $this->addFilter($params['filters']);
