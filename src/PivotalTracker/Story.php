@@ -12,7 +12,6 @@ use PivotalTracker\StoryCollection, PivotalTracker\Filter\FilterFactory;
 class Story {
 
     protected $api;
-    protected $labels = array();
     protected $filters = array();
     protected $limit = 30;
 
@@ -29,15 +28,6 @@ class Story {
      */
     public function getLimit() {
         return $this->limit;
-    }
-
-    /**
-     * Set Labels
-     *
-     * Only accept a set of labels for filtering stories
-     */
-    public function setLabels($labels) {
-        $this->labels = $labels;
     }
 
     /**

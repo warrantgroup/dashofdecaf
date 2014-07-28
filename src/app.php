@@ -33,6 +33,9 @@ $app->get('/', function() use ($app) {
     return $app->redirect($app["url_generator"]->generate("stories"));
 });
 
+/**
+ * Stories Route
+ */
 $app->get('/stories', function() use ($app, $api) {
 	return $app['twig']->render('stories/index.twig', array(
         'stories' => null,
@@ -41,6 +44,9 @@ $app->get('/stories', function() use ($app, $api) {
 
 })->bind('stories');
 
+/**
+ * Changelog Route
+ */
 $app->get('/changelog', function(Request $request) use ($app, $api) {
     return $app['twig']->render('changelog/index.twig', array(
         'stories' => null,
@@ -49,12 +55,18 @@ $app->get('/changelog', function(Request $request) use ($app, $api) {
 
 })->bind('changelog');
 
+/**
+ * Roadmap route
+ */
 $app->get('/roadmap', function() use ($app, $api) {
+
     $story = new PivotalTracker\Story($api);
+
     $params['filters'] = array('storyType' => array('release'));
     $params['limit'] = 100;
     $params['includeDone'] = false;
     $params['release'] = true;
+
     return $app['twig']->render('roadmap/index.twig', array(
         'releases' => $story->search($params)
     ));
@@ -64,8 +76,6 @@ $app->get('/roadmap', function() use ($app, $api) {
 $app->post('/stories', function(Request $request) use ($app, $api) {
 
     $story = new PivotalTracker\Story($api);
-    $story->setLabels($app['config']['labels']);
-
     $page = $request->request->get('page');
 
     if(empty($page)) {
@@ -94,7 +104,6 @@ $app->post('/changelog', function(Request $request) use ($app, $api) {
     $params['filters']['storyStatus'] = array('finished');
 
     $story = new PivotalTracker\Story($api);
-    $story->setLabels($app['config']['labels']);
     $collection = $story->search($params);
 
     if(!isset($params['offset'])) {
