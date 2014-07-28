@@ -18,7 +18,6 @@ function find(type, page) {
             break;
     }
 
-    initFilterHandlers(type);
     $(window).scrollTop(0);
 }
 
