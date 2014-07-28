@@ -32,15 +32,6 @@ class Story {
     }
 
     /**
-     * Return stories from cache
-     *
-     * @return mixed
-     */
-    public function getCache() {
-        return $this->cache;
-    }
-
-    /**
      * Set Labels
      *
      * Only accept a set of labels for filtering stories

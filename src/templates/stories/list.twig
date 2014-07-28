@@ -9,7 +9,7 @@
          {% if  pager.getCurrentPage()  == 1 %}
              {% set state = 'disabled' %}
          {% endif %}
-         <li class="{{ state }}"><a onclick="loadStories({{ pager.getCurrentPage() -1 }})">&laquo;</a></li>
+         <li class="{{ state }}"><a onclick="find('stories', {{ pager.getCurrentPage() -1 }})">&laquo;</a></li>
 
          {# pages 1 2 3 ... #}
          {% for givenPage in 1..pager.getNbPages() %}
@@ -17,7 +17,7 @@
              {% if  pager.getCurrentPage()  == givenPage %}
                  {% set state = 'active' %}
              {% endif %}
-             <li class="{{ state }}"><a onclick="loadStories({{ givenPage }})">{{ givenPage }}</a></li>
+             <li class="{{ state }}"><a onclick="find('stories', {{ givenPage }})">{{ givenPage }}</a></li>
          {% endfor %}
 
          {# forward #}
@@ -25,6 +25,6 @@
          {% if  pager.getCurrentPage() == pager.getNbPages() %}
              {% set state = 'disabled' %}
          {% endif %}
-         <li class="{{ state }}"><a onclick="loadStories({{ pager.getCurrentPage() +1 }})">&raquo;</a></li>
+         <li class="{{ state }}"><a onclick="find('stories', {{ pager.getCurrentPage() +1 }})">&raquo;</a></li>
      </ul>
  {% endif %}

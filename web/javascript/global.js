@@ -51,8 +51,6 @@ function getFilters() {
 }
 
 function initFilterHandlers(type) {
-
-
     // Filter on checkbox change
     $('input[type="checkbox"]').change(function () {
         find(type);
