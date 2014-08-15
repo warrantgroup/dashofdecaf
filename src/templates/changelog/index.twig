@@ -21,13 +21,15 @@
              </div>
          </div>
 
-         <div class="row">
-             <div class="col-md-9" id="changelog">
-             </div>
+         <form name="changelog-filter">
+             <div class="row">
+                 <div class="col-md-9" id="changelog">
+                 </div>
 
-             <div class="col-md-3">
-                 {% include 'changelog/filters.twig' %}
+                 <div class="col-md-3">
+                     {% include 'changelog/filters.twig' %}
+                 </div>
              </div>
-         </div>
+         </form>
      </div>
  {% endblock %}

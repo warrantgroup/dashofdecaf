@@ -21,7 +21,6 @@ function find(type, page) {
     $(window).scrollTop(0);
 }
 
-
 /**
  * Get filters
  *
@@ -86,3 +85,4 @@ function initFilterHandlers(type) {
         }, 400);
     });
 }
+

@@ -21,12 +21,14 @@
              </div>
          </div>
 
-         <div class="row">
-             <div class="col-md-9" id="stories">
+         <form id="story-filter">
+             <div class="row">
+                 <div class="col-md-9" id="stories">
+                 </div>
+                 <div class="col-md-3">
+                     {% include 'stories/filters.twig' %}
+                 </div>
              </div>
-             <div class="col-md-3">
-                 {% include 'stories/filters.twig' %}
-             </div>
-         </div>
+         </form>
      </div>
  {% endblock %}
