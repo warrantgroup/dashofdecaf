@@ -177,7 +177,7 @@ class Story {
             }
         }
 
-        ksort($sort);
+        ksort($releases);
 
         // Append releases with no deadline to end of list
         return array_merge($releases, $pendingDeadline);
