@@ -165,13 +165,23 @@ class Story {
      * @param $stories
      */
     protected function sortByDeadline($stories) {
+        $sortedStories = array();
+        $nulls = array();
 
-        usort($stories, function($a, $b) {
-            if(isset($a['deadline']) && isset($b['deadline'])) {
-                return strtotime($b['deadline']) - strtotime($a['deadline']);
+        foreach($stories as $k=>$v) {
+            $lowerStories[$k] = strtolower($v['deadline']);
+        }
+        asort($lowerStories);
+        foreach($lowerStories as $key=>$val) {
+            if (empty($val)){
+                $nulls[] = $key;
+            } else {
+                $sortedStories[] = $stories[$key];
             }
-        });
-
-        return $stories;
+        }
+        foreach ($nulls as $recordKey){
+            $sortedStories[] = $stories[$recordKey];
+        }
+        return $sortedStories;
     }
 }

@@ -16,6 +16,12 @@ if(!file_exists(__DIR__ . '/config.yml')) {
     die();
 }
 
+if (!is_writable(__DIR__.'/../cache')){
+    //444 is readonly, 777 is readwrite
+    echo 'Cache directory is not writable.';
+    die();
+}
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/templates'));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new DerAlex\Silex\YamlConfigServiceProvider(__DIR__ . '/config.yml'));
