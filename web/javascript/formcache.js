@@ -48,6 +48,8 @@
                         }
                     }
                 });
+
+
             }
             else {
                 alert('local storage is not available');

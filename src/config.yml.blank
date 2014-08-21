@@ -1,10 +1,10 @@
 pivotaltracker:
-    apiKey: ** YOUR PIVOTAL API KEY **
-    projectId: ** YOUR PIVOTAL PROJECT ID **
+    apiKey: ** PIVOTAL TRACKER API KEY **
+    projectId: ** PROJECT ID **
 
 labels:
-      "air": "Airfreight"
-      "wms": "Logistics"
-      "roadfreight": "Road Freight"
-      "scm": "SCM"
-      "seafreight": "Sea Freight"
+    air: "Airfreight"
+    logistics: "Logistics"
+    roadfreight: "Road Freight"
+    scm: "Supply Chain Management"
+    seafreight: "Sea Freight"
