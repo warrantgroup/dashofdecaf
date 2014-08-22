@@ -37,7 +37,11 @@ class Api {
         $searchString = array();
 
         foreach($filters as $k => $filter) {
-            $searchString[] = is_array($filter) ? $k . ':' . implode(',', $filter) : $k . ':' . $filter;
+            if(is_string($k)) {
+                $searchString[] = is_array($filter) ? $k . ':' . implode(',', $filter) : $k . ':' . $filter;
+            }else{
+                $searchString[] = is_array($filter) ? implode(',', $filter) : $filter;
+            }
         }
 
         return implode(' ', $searchString);

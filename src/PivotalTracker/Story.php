@@ -13,6 +13,7 @@ class Story {
 
     protected $api;
     protected $filters = array();
+    protected $labels = array();
     protected $limit = 30;
 
     public function __construct($api)
@@ -28,6 +29,15 @@ class Story {
      */
     public function getLimit() {
         return $this->limit;
+    }
+
+    /**
+     * Set Labels
+     *
+     * Only accept a set of labels for filtering stories
+     */
+    public function setLabels($labels) {
+        $this->labels = $labels;
     }
 
     /**
@@ -47,6 +57,10 @@ class Story {
         }
 
         if(isset($params['filters'])) {
+            if(strtolower($params['filters']['label']) == 'all') {
+                $params['filters']['label'] = array_keys($this->labels);
+            }
+
             $this->addFilter($params['filters']);
         }
 

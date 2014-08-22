@@ -6,10 +6,14 @@
             <div class="selectbox">
                 <label>
                     <select name="label" class="form-control">
+                        {% if labels|length > 0 %}
+                            <option name="all">All</option>
                         {% for key, label in labels %}
                             <option name="label" value={{ key }}>{{ label }}</option>
                         {% endfor %}
+                        {% endif %}
                     </select>
+
                 </label>
             </div>
         </div>

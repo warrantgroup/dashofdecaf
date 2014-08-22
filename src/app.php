@@ -33,7 +33,10 @@ $app->register(new Moust\Silex\Provider\CacheServiceProvider(), array(
     )
 ));
 
-$api = new \PivotalTracker\Api($app['config']['pivotaltracker']);
+$story = new PivotalTracker\Story(
+    new \PivotalTracker\Api($app['config']['pivotaltracker'])
+);
+$story->setLabels($app['config']['labels']);
 
 $app->get('/', function() use ($app) {
     return $app->redirect($app["url_generator"]->generate("stories"));
@@ -42,7 +45,7 @@ $app->get('/', function() use ($app) {
 /**
  * Stories Route
  */
-$app->get('/stories', function() use ($app, $api) {
+$app->get('/stories', function() use ($app) {
 	return $app['twig']->render('stories/index.twig', array(
         'stories' => null,
         'labels' => $app['config']['labels']
@@ -53,7 +56,7 @@ $app->get('/stories', function() use ($app, $api) {
 /**
  * Changelog Route
  */
-$app->get('/changelog', function(Request $request) use ($app, $api) {
+$app->get('/changelog', function(Request $request) use ($app) {
     return $app['twig']->render('changelog/index.twig', array(
         'stories' => null,
         'labels' => $app['config']['labels']
@@ -64,9 +67,7 @@ $app->get('/changelog', function(Request $request) use ($app, $api) {
 /**
  * Roadmap route
  */
-$app->get('/roadmap', function() use ($app, $api) {
-
-    $story = new PivotalTracker\Story($api);
+$app->get('/roadmap', function() use ($app, $story) {
 
     $params['filters'] = array('storyType' => array('release'));
     $params['limit'] = 100;
@@ -79,9 +80,8 @@ $app->get('/roadmap', function() use ($app, $api) {
 
 })->bind('roadmap');
 
-$app->post('/stories', function(Request $request) use ($app, $api) {
+$app->post('/stories', function(Request $request) use ($app, $story) {
 
-    $story = new PivotalTracker\Story($api);
     $page = $request->request->get('page');
 
     if(empty($page)) {
@@ -101,7 +101,7 @@ $app->post('/stories', function(Request $request) use ($app, $api) {
 
 });
 
-$app->post('/changelog', function(Request $request) use ($app, $api) {
+$app->post('/changelog', function(Request $request) use ($app, $story) {
 
     $params = $request->request->all();
 
@@ -109,7 +109,6 @@ $app->post('/changelog', function(Request $request) use ($app, $api) {
     $params['filters']['storyType'] = array('feature', 'bug');
     $params['filters']['storyStatus'] = array('finished');
 
-    $story = new PivotalTracker\Story($api);
     $collection = $story->search($params);
 
     if(!isset($params['offset'])) {
