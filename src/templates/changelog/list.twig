@@ -8,10 +8,11 @@
         {% if features|length > 0 %}
             <ul>
                 {% for feature in features %}
-                    <li>{{ feature.name }}</li>
+                    <li><strong>{{ feature.name }}</strong></li>
                     <ul>
                         <li>{{ feature.description }}</li>
                     </ul>
+                    <br>
                 {% endfor %}
             </ul>
         {% endif %}
@@ -28,10 +29,11 @@
         {% if bugs|length > 0 %}
             <ul>
                 {% for bug in bugs %}
-                    <li>{{ bug.name }}</li>
+                    <li><strong>{{ bug.name }}</strong></li>
                     <ul>
                         <li>{{ bug.description }}</li>
                     </ul>
+                    <br>
                 {% endfor %}
             </ul>
         {% endif %}

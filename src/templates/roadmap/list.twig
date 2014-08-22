@@ -8,12 +8,13 @@
         {% if releases|length > 0 %}
             <ul>
                 {% for release in releases %}
-                    <li>{{ release.name }}</li>
+                    <li><strong>{{ release.name }}</strong></li>
                     <ul>
                         {% if release.description|default %}
                             <li>{{ release.description }}</li>
                         {% endif %}
                     </ul>
+                    <br>
                 {% endfor %}
             </ul>
         {% endif %}
