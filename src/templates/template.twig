@@ -18,6 +18,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="javascript/global.js"></script>
     <script src="javascript/formcache.js"></script>
+    <script src="javascript/jquery.spin.js"></script>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -58,7 +59,9 @@
 </div>
 
 <div class="container">
+    <div id="content">
     {% block content %}{% endblock %}
+    </div>
     <hr>
     <footer>
         <p>&copy; Warrant Group Limited 2014</p>
