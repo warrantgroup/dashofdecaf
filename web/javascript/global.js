@@ -3,17 +3,26 @@
  * @param params
  */
 function find(type, page) {
+
+    $("#content").spin({lines: 13, length: 20, width: 10, radius: 30, left: '45%', top: '25%'});
+
     switch (type) {
         case "changelog":
+
             $("#changelog").load("changelog", {
                 "filters": getFilters()
+            }, function() {
+                $("#content").spin(false);
             });
             break;
 
         case "stories":
+
             $("#stories").load("stories", {
                 "filters": getFilters(),
                 "page": page
+            }, function() {
+                $("#content").spin(false);
             });
             break;
     }

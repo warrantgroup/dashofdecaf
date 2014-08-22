@@ -163,25 +163,29 @@ class Story {
      * Sort by Deadline
      *
      * @param $stories
+     * @return array
      */
     protected function sortByDeadline($stories) {
-        $sortedStories = array();
-        $nulls = array();
 
-        foreach($stories as $k=>$v) {
-            $lowerStories[$k] = strtolower($v['deadline']);
-        }
-        asort($lowerStories);
-        foreach($lowerStories as $key=>$val) {
-            if (empty($val)){
-                $nulls[] = $key;
-            } else {
-                $sortedStories[] = $stories[$key];
+        $releases = array();
+        $pendingDeadline = array();
+
+        foreach($stories as $k => $v) {
+            if(!empty($v['deadline'])) {
+                $releases[] = $v;
+            }else{
+                $pendingDeadline[] = $v;
             }
         }
-        foreach ($nulls as $recordKey){
-            $sortedStories[] = $stories[$recordKey];
-        }
-        return $sortedStories;
+
+        // Sort releases ascending by deadline date
+        usort($releases, function($a, $b) {
+            if(isset($a['deadline']) && isset($b['deadline'])) {
+                return strtotime($a['deadline']) - strtotime($b['deadline']);
+            }
+        });
+
+        // Append releases with no deadline to end of list
+        return array_merge($releases, $pendingDeadline);
     }
 }
