@@ -3,8 +3,9 @@ pivotaltracker:
     projectId: ** PROJECT ID **
 
 labels:
-    air: "Airfreight"
+    airfreight: "Airfreight"
     logistics: "Logistics"
     roadfreight: "Road Freight"
     scm: "Supply Chain Management"
     seafreight: "Sea Freight"
+    infastructure: "Infastructure"
