@@ -3,9 +3,14 @@ pivotaltracker:
     projectId: ** PROJECT ID **
 
 labels:
-    airfreight: "Airfreight"
-    logistics: "Logistics"
-    roadfreight: "Road Freight"
-    scm: "Supply Chain Management"
-    seafreight: "Sea Freight"
-    infastructure: "Infastructure"
+    addressbook: "Addressbook"
+    booking: "Booking"
+    containers: "Containers"
+    details: "Details"
+    documentation: "Documents"
+    packages: "Packages"
+    parties: "Parties"
+    pickups: "Pickups"
+    shipment: "Shipments"
+    tracking: "Tracking"
+    vgm: "VGM"
